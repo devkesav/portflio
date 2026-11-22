@@ -61,9 +61,10 @@ const About = () => {
               <p key={index}><RevealWords delay={index * 700}>{paragraph}</RevealWords></p>
             )) : (
               <>
-                <p><RevealWords>I&rsquo;m an Electrical and Electronics Engineering undergraduate at KPR Institute of Engineering and Technology. My interest started with power electronics — converters, drives, and the physics behind them — and gradually pulled me toward the software that makes those systems behave intelligently.</RevealWords></p>
-                <p><RevealWords delay={700}>That has meant modelling a regenerative elevator drive in Simulink, writing a safety-supervised reinforcement learning agent for its energy management, and building embedded vision systems that run on modest hardware. I care about systems that can be measured, benchmarked, and explained.</RevealWords></p>
-                <p><RevealWords delay={1400}>Outside coursework I&rsquo;ve led IEEE IMS activities at college, shipped a community-matching platform with a small team, and spent a lot of evenings debugging things on an ESP32.</RevealWords></p>
+                <p><RevealWords>I&rsquo;m an Electrical and Electronics Engineering undergraduate at KPR Institute of Engineering and Technology, working at the intersection of electrical engineering, embedded systems, and intelligent computing.</RevealWords></p>
+                <p><RevealWords delay={700}>My core interests are power electronics, electrical machines, control systems, and circuit analysis. I use MATLAB and Simulink to model physical systems, and Arduino or ESP32 boards to turn those ideas into working hardware prototypes.</RevealWords></p>
+                <p><RevealWords delay={1400}>Beyond the core curriculum, I explore artificial intelligence, computer vision, local language models, CUDA programming, and GPU computing — with a focus on connecting hardware and software to build practical engineering solutions.</RevealWords></p>
+                <p><RevealWords delay={2100}>I learn by building, debugging, and measuring. Whether it is an embedded prototype or a control model, I care about understanding the system from hardware behaviour to software logic.</RevealWords></p>
               </>
             )}
           </div>
