@@ -484,6 +484,7 @@ body::after {
 ::view-transition-image-pair(root) {
   isolation: isolate;
   overflow: hidden;
+  contain: paint;
 }
 
 @media (prefers-reduced-motion: reduce) {

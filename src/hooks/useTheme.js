@@ -26,7 +26,6 @@ export const useTheme = () => {
         // Set the attribute synchronously so the View Transition snapshot
         // captures the finished theme, then let React state catch up.
         document.documentElement.dataset.theme = next;
-        document.documentElement.dataset.themeTransition = next;
         flushSync(() => setTheme(next));
       };
 
@@ -59,18 +58,12 @@ export const useTheme = () => {
             },
             {
               duration: 650,
-              easing: 'cubic-bezier(0.65, 0, 0.35, 1)',
+              easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
               pseudoElement: '::view-transition-new(root)',
             }
           );
 
-          animation.finished
-            .finally(() => {
-              delete document.documentElement.dataset.themeTransition;
-            })
-            .catch(() => {
-              delete document.documentElement.dataset.themeTransition;
-            });
+          animation.finished.catch(() => {});
         })
         .catch(() => {
           // The transition may be skipped if the tab is hidden; theme still applied.
