@@ -37,7 +37,7 @@ const Hero = () => {
         : {
             role: 'Electrical and Electronics Engineer',
             command: '$ cat about.txt',
-            intro: 'Electrical and Electronics Engineering undergraduate at KPR Institute of Engineering and Technology, working across power electronics, control, and applied machine learning — from regenerative elevator drives to embedded vision systems.',
+            intro: 'Electrical and Electronics Engineering undergraduate at KPR Institute of Engineering and Technology, exploring power electronics, control systems, embedded hardware, and applied machine learning — from MATLAB/Simulink models and Arduino/ESP32 prototypes to intelligent software systems.',
             projects: './projects',
             blogs: './blogs',
             focus: 'power electronics, rl control',
