@@ -2,12 +2,15 @@
 
 A terminal-inspired personal portfolio for Kesavaraj K, an Electrical and Embedded Systems Engineering student focused on power electronics, control systems, applied machine learning, and embedded development.
 
+> $ echo "Built with creativity, inspired by the CLI."
+
 ## Highlights
 
 - Responsive terminal-style interface with dark and light themes
 - Animated ASCII portrait generated from a portrait source image
 - Letter-by-letter and scroll-triggered word animations
 - Circular dark/light theme transitions
+- 3D glass portrait interaction
 - Project case studies with GitHub repository context
 - Live Medium blog feed with article covers
 - LinkedIn, GitHub, resume, email, and project links
