@@ -37,11 +37,11 @@ const Hero = () => {
         : {
             role: 'Electrical & Embedded Systems Engineer',
             command: '$ cat about.txt',
-            intro: 'EEE undergraduate at KPR Institute of Engineering and Technology, working across power electronics, control, and applied machine learning — from regenerative elevator drives to embedded vision systems.',
+            intro: 'Electrical and Electronics Engineering undergraduate at KPR Institute of Engineering and Technology, working across power electronics, control, and applied machine learning — from regenerative elevator drives to embedded vision systems.',
             projects: './projects',
             blogs: './blogs',
             focus: 'power electronics, rl control',
-            year: 'b.e. eee, 2024–2028',
+            year: 'b.e. electrical and electronics engineering, 2024–2028',
             location: 'tiruppur, tamil nadu',
             currentProject: 'portfolio & Safe RL Energy Management for PMSM Drive',
             open: 'internships',

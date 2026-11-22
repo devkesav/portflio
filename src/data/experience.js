@@ -6,7 +6,7 @@ export const experience = [
     title: "Research Intern (Power Converters)",
     organization: "National Institute of Technology, Karaikal",
     duration: "Dec 2025 – Jan 2026",
-    description: "Studied power converters for regulating renewable (PV) power generation under Dr. BijuKumar, EEE Dept. Key tasks included simulating PV behaviour under varying irradiance/temperature conditions and documenting the entire process in LaTeX.",
+    description: "Studied power converters for regulating renewable (PV) power generation under Dr. BijuKumar, Electrical and Electronics Engineering Department. Key tasks included simulating PV behaviour under varying irradiance/temperature conditions and documenting the entire process in LaTeX.",
   },
   {
     id: "diploma-health",

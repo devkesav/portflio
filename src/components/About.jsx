@@ -5,7 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 const facts = [
   { label: 'based_in', value: 'tiruppur, tamil nadu' },
-  { label: 'degree', value: 'b.e. eee, 2024–2028' },
+  { label: 'degree', value: 'b.e. electrical and electronics engineering, 2024–2028' },
   { label: 'cgpa', value: '7.92 / 10' },
   { label: 'languages', value: 'tamil, english, japanese (n5)' },
   { label: 'leadership', value: 'ieee ims — vice chairman' },
@@ -31,7 +31,7 @@ const About = () => {
     language === 'ta'
       ? [
           ['வசிக்கும் இடம்', 'திருப்பூர், தமிழ்நாடு'],
-          ['பட்டம்', 'பி.இ. மின் மின்னணு, 2024–2028'],
+          ['பட்டம்', 'பி.இ. மின் மற்றும் மின்னணு பொறியியல், 2024–2028'],
           ['சிஜிபிஏ', '7.92 / 10'],
           ['மொழிகள்', 'தமிழ், ஆங்கிலம், ஜப்பானியம் (N5)'],
           ['தலைமை', 'IEEE IMS — துணைத் தலைவர்'],
