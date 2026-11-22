@@ -99,6 +99,13 @@ const Hero = () => {
                 >
                   {copy.blogs}
                 </a>
+                <a
+                  href={`${import.meta.env.BASE_URL}resume.pdf`}
+                  download="Kesavaraj-K-Resume.pdf"
+                  className="border border-line px-5 py-2 text-[13px] text-neutral-300 transition-colors hover:border-white hover:text-white"
+                >
+                  resume.pdf ↓
+                </a>
               </div>
 
               <aside className="mt-5 w-full border border-line bg-surface/50 p-4 text-xs">

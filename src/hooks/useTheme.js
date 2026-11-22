@@ -50,34 +50,19 @@ export const useTheme = () => {
       const transition = document.startViewTransition(apply);
       transition.ready
         .then(() => {
-          const animation =
-            next === 'light'
-              ? document.documentElement.animate(
-                  {
-                    clipPath: [
-                      `circle(0px at ${x}px ${y}px)`,
-                      `circle(${radius}px at ${x}px ${y}px)`,
-                    ],
-                  },
-                  {
-                    duration: 650,
-                    easing: 'cubic-bezier(0.65, 0, 0.35, 1)',
-                    pseudoElement: '::view-transition-new(root)',
-                  }
-                )
-              : document.documentElement.animate(
-                  {
-                    clipPath: [
-                      `circle(${radius}px at ${x}px ${y}px)`,
-                      `circle(0px at ${x}px ${y}px)`,
-                    ],
-                  },
-                  {
-                    duration: 650,
-                    easing: 'cubic-bezier(0.65, 0, 0.35, 1)',
-                    pseudoElement: '::view-transition-old(root)',
-                  }
-                );
+          const animation = document.documentElement.animate(
+            {
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${radius}px at ${x}px ${y}px)`,
+              ],
+            },
+            {
+              duration: 650,
+              easing: 'cubic-bezier(0.65, 0, 0.35, 1)',
+              pseudoElement: '::view-transition-new(root)',
+            }
+          );
 
           animation.finished
             .finally(() => {
