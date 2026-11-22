@@ -35,7 +35,7 @@ const Hero = () => {
             footer: '$ echo "創造性を持って、CLIに着想を得て構築しました。"',
           }
         : {
-            role: 'Electrical & Embedded Systems Engineer',
+            role: 'Electrical and Electronics Engineer',
             command: '$ cat about.txt',
             intro: 'Electrical and Electronics Engineering undergraduate at KPR Institute of Engineering and Technology, working across power electronics, control, and applied machine learning — from regenerative elevator drives to embedded vision systems.',
             projects: './projects',
