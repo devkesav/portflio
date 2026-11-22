@@ -91,8 +91,8 @@ const Hero = () => {
                   <div className="grid grid-cols-[7.5rem_minmax(0,1fr)] items-baseline gap-4 border-t border-line pt-2">
                     <dt className="text-muted">open</dt>
                     <dd className="ml-auto flex items-center justify-end gap-2 text-right text-neutral-300">
-                      <span>internships</span>
                       <span className="inline-block h-1.5 w-1.5 bg-white" />
+                      <span>internships</span>
                     </dd>
                   </div>
                 </dl>
