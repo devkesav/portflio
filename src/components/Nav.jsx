@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useScrollProgress } from '../hooks/useScrollProgress';
 import { useTheme } from '../hooks/useTheme';
+import { useLanguage } from '../context/LanguageContext';
 
 const links = [
   { href: '#about', label: 'about' },
@@ -15,6 +16,15 @@ const Nav = () => {
   const [scrollProgress] = useScrollProgress();
   const [open, setOpen] = useState(false);
   const { theme, toggle } = useTheme();
+  const { language, setLanguage } = useLanguage();
+
+  const labels =
+    language === 'ta'
+      ? ['என்னைப்பற்றி', 'தொழில்கள்', 'அனுபவம்', 'திறன்கள்', 'எழுத்துகள்', 'தொடர்பு']
+      : language === 'ja'
+        ? ['自己紹介', '仕事', '経験', 'スキル', '記事', '連絡']
+        : ['about', 'work', 'experience', 'skills', 'blogs', 'contact'];
+  const localizedLinks = links.map((link, index) => ({ ...link, label: labels[index] }));
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-black/90 backdrop-blur">
@@ -24,7 +34,7 @@ const Nav = () => {
         </a>
 
         <nav className="hidden items-center gap-3 text-[13px] text-muted md:flex lg:gap-5">
-          {links.map((link) => (
+          {localizedLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -33,13 +43,16 @@ const Nav = () => {
               ./{link.label}
             </a>
           ))}
-          <a
-            href={`${import.meta.env.BASE_URL}resume.pdf`}
-            download="Kesavaraj-K-Resume.pdf"
-            className="text-white transition-colors hover:text-muted"
+          <select
+            value={language}
+            onChange={(event) => setLanguage(event.target.value)}
+            aria-label="Select language"
+            className="border border-line bg-transparent px-2 py-1 text-[11px] text-muted outline-none"
           >
-            resume.pdf
-          </a>
+            <option value="en">English</option>
+            <option value="ta">தமிழ்</option>
+            <option value="ja">日本語</option>
+          </select>
           <button
             type="button"
             onClick={(event) => toggle(event)}
@@ -51,6 +64,16 @@ const Nav = () => {
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
+          <select
+            value={language}
+            onChange={(event) => setLanguage(event.target.value)}
+            aria-label="Select language"
+            className="border border-line bg-transparent px-2 py-1 text-[11px] text-muted outline-none"
+          >
+            <option value="en">EN</option>
+            <option value="ta">தமிழ்</option>
+            <option value="ja">日本語</option>
+          </select>
           <button
             type="button"
             onClick={(event) => toggle(event)}
@@ -74,7 +97,7 @@ const Nav = () => {
       {open ? (
         <nav className="border-t border-line bg-black px-6 py-4 md:hidden">
           <div className="flex flex-col gap-3 text-[13px] text-muted">
-            {links.map((link) => (
+            {localizedLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -84,13 +107,6 @@ const Nav = () => {
                 ./{link.label}
               </a>
             ))}
-            <a
-              href={`${import.meta.env.BASE_URL}resume.pdf`}
-              download="Kesavaraj-K-Resume.pdf"
-              className="text-white"
-            >
-              resume.pdf
-            </a>
           </div>
         </nav>
       ) : null}
