@@ -5,9 +5,22 @@ import { useLanguage } from '../context/LanguageContext';
 
 const Hero = () => {
   const { language } = useLanguage();
+  const isTamil = language === 'ta';
+  const [isNameHovered, setIsNameHovered] = React.useState(false);
+  const [isNameFocused, setIsNameFocused] = React.useState(false);
+  const showFullName = isNameHovered || isNameFocused;
+  const nameClass =
+    language === 'ta'
+      ? 'hero-name hero-name--tamil'
+      : language === 'ja'
+        ? 'hero-name hero-name--japanese'
+        : 'hero-name';
   const copy =
     language === 'ta'
       ? {
+          name: 'கேசவராஜ் கி',
+          fullNameBeforeD: 'கேசவ ',
+          fullNameAfterD: ' ராஜ்',
           role: 'மின் மற்றும் உட்பொதிக்கப்பட்ட அமைப்புகள் பொறியாளர்',
           command: '$ cat பற்றி.txt',
           intro: 'கே.பி.ஆர். பொறியியல் மற்றும் தொழில்நுட்பக் கல்லூரியில் மின் மற்றும் மின்னணு பொறியியல் இளங்கலை மாணவராகப் படிக்கிறேன். பவர் எலக்ட்ரானிக்ஸ், கட்டுப்பாட்டு அமைப்புகள், உட்பொதிக்கப்பட்ட வன்பொருள் மற்றும் பயன்பாட்டு எந்திரக் கற்றல் துறைகளை ஆராய்கிறேன் — MATLAB/Simulink மாதிரியாக்கம் மற்றும் Arduino/ESP32 முன்மாதிரிகள் தொடங்கி புத்திசாலி மென்பொருள் அமைப்புகள் வரை.',
@@ -22,6 +35,9 @@ const Hero = () => {
         }
       : language === 'ja'
         ? {
+            name: 'ケサヴァラジ・K',
+            fullNameBeforeD: 'ケサヴァ・',
+            fullNameAfterD: '・ラージ',
             role: '電気電子エンジニア',
             command: '$ cat about.txt',
             intro: 'KPR工科大学で電気電子工学を学びながら、パワーエレクトロニクス、制御システム、組込みハードウェア、応用機械学習を探究しています。MATLAB/SimulinkのモデリングやArduino/ESP32のプロトタイプから、インテリジェントなソフトウェアシステムまで幅広く取り組んでいます。',
@@ -35,6 +51,9 @@ const Hero = () => {
             footer: '$ echo "創造性を持って、CLIに着想を得て構築しました。"',
           }
         : {
+            name: 'Kesavaraj K',
+            fullNameBeforeD: 'Kesava ',
+            fullNameAfterD: ' Raj',
             role: 'Electrical and Electronics Engineer',
             command: '$ cat about.txt',
             intro: 'Electrical and Electronics Engineering undergraduate at KPR Institute of Engineering and Technology, exploring power electronics, control systems, embedded hardware, and applied machine learning — from MATLAB/Simulink models and Arduino/ESP32 prototypes to intelligent software systems.',
@@ -51,7 +70,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="flex min-h-[calc(100vh-3.5rem)] flex-col border-b border-line md:h-[calc(100vh-3.5rem)] md:min-h-0"
+      className="flex min-h-[calc(100vh-3.5rem)] flex-col border-b border-line"
     >
       <div className="shell flex flex-1 flex-col py-4 md:py-5">
         <p className="text-[13px] text-muted">
@@ -64,7 +83,30 @@ const Hero = () => {
             {/* Left column: every block shares the same max-w-xl measure. */}
             <div className="w-full max-w-xl">
               <h1 className="min-h-[1.02em] text-5xl font-medium leading-[1.02] tracking-tight text-white sm:text-6xl md:text-[56px] xl:text-[72px]">
-                <TypewriterText text="Kesavaraj K" speed={55} />
+                <span
+                  aria-label={
+                    showFullName
+                      ? `${copy.fullNameBeforeD}D${copy.fullNameAfterD}`
+                      : copy.name
+                  }
+                  className={`${nameClass}${showFullName ? ' is-revealed' : ''}`}
+                  onPointerEnter={(event) => {
+                    if (event.pointerType !== 'touch') setIsNameHovered(true);
+                  }}
+                  onPointerLeave={() => setIsNameHovered(false)}
+                  onFocus={() => setIsNameFocused(true)}
+                  onBlur={() => setIsNameFocused(false)}
+                  tabIndex={0}
+                >
+                  <span className="hero-name-current">
+                    <TypewriterText text={copy.name} speed={55} />
+                  </span>
+                  <span className="hero-name-full" aria-hidden="true">
+                    {copy.fullNameBeforeD}
+                    <span className="hero-name-d">D</span>
+                    {copy.fullNameAfterD}
+                  </span>
+                </span>
               </h1>
 
               <p className="mt-4 text-lg text-neutral-300 md:text-xl">
@@ -78,10 +120,18 @@ const Hero = () => {
                 </p>
               </div>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              <div
+                className={`mt-8 flex items-center ${
+                  isTamil
+                    ? 'max-w-full flex-nowrap gap-2 overflow-x-auto'
+                    : 'flex-wrap gap-4'
+                }`}
+              >
                 <a
                   href="#projects"
-                  className="border border-white bg-white px-5 py-2 text-[13px] font-medium text-black transition-colors hover:bg-black hover:text-white"
+                  className={`hero-action-link border border-line py-2 text-[13px] text-neutral-300 transition-colors ${
+                    isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-5'
+                  }`}
                 >
                   {copy.projects}
                 </a>
@@ -89,20 +139,26 @@ const Hero = () => {
                   href="https://www.linkedin.com/in/devkesav"
                   target="_blank"
                   rel="noreferrer"
-                  className="border border-line px-5 py-2 text-[13px] text-neutral-300 transition-colors hover:border-white hover:text-white"
+                  className={`hero-action-link border border-line py-2 text-[13px] text-neutral-300 transition-colors ${
+                    isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-5'
+                  }`}
                 >
                   linkedin ↗
                 </a>
                 <a
                   href="#blogs"
-                  className="border border-line px-5 py-2 text-[13px] text-neutral-300 transition-colors hover:border-white hover:text-white"
+                  className={`hero-action-link border border-line py-2 text-[13px] text-neutral-300 transition-colors ${
+                    isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-5'
+                  }`}
                 >
                   {copy.blogs}
                 </a>
                 <a
                   href={`${import.meta.env.BASE_URL}resume.pdf`}
                   download="Kesavaraj-K-Resume.pdf"
-                  className="border border-line px-5 py-2 text-[13px] text-neutral-300 transition-colors hover:border-white hover:text-white"
+                  className={`hero-action-link border border-line py-2 text-[13px] text-neutral-300 transition-colors ${
+                    isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-5'
+                  }`}
                 >
                   resume.pdf ↓
                 </a>

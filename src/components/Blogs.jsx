@@ -5,46 +5,6 @@ import { RevealItem } from './RevealText';
 const MEDIUM_PROFILE = 'https://medium.com/@devkesav';
 const MEDIUM_FEED = 'https://api.rss2json.com/v1/api.json';
 
-const GITHUB_REPOS = [
-  {
-    name: 'Drowsy Sentry System',
-    repo: 'https://github.com/devkesav/Drowsy-Sentry-System',
-    cover: 'https://opengraph.githubassets.com/61d9f3c04d2e8c65f93946d9bdced34e6e14888a6979d368c792a3c717805d11/devkesav/Drowsy-Sentry-System',
-    keywords: ['drowsy', 'yawn', 'media pipe', 'sentry'],
-  },
-  {
-    name: 'KONE Elevator Project',
-    repo: 'https://github.com/devkesav/KONE-Project',
-    cover: 'https://opengraph.githubassets.com/c25967e8ae46fb205dde426aa637b0160556e0cc086c95725e07fe0ad0b45f34/devkesav/KONE-Project',
-    keywords: ['elevator', 'ev experiment', 'ev ', 'pmsm', 'kone'],
-  },
-  {
-    name: 'NIT Internship Report',
-    repo: 'https://github.com/devkesav/NIT-Intenship-Report',
-    cover: 'https://opengraph.githubassets.com/a0433f7c651c7e8f6db71d1f067561ce312ef2d956ed2d2f90d6c3da3389be2d/devkesav/NIT-Intenship-Report',
-    keywords: ['nit karaikal', 'nit karaikal internship', 'internship', 'pondicherry'],
-  },
-  {
-    name: 'PID Power Factor Correction',
-    repo: 'https://github.com/devkesav/PID-Control-Design-for-Power-Factor-Correction',
-    cover: 'https://opengraph.githubassets.com/8d094b5ca263fb70d8a3cc11112fdd55e3a87686a2354bcb91802cc242139b43/devkesav/PID-Control-Design-for-Power-Factor-Correction',
-    keywords: ['pid', 'power factor', 'pfc', 'converter', 'filter'],
-  },
-  {
-    name: 'Vehicle Number Plate Detection',
-    repo: 'https://github.com/devkesav/Vehicle-number-plate-detection-on-MATLAB',
-    cover: 'https://opengraph.githubassets.com/c71f931746dd4fff97e515824e15a23df2135e20f471474ba06a3ec857a56b1a/devkesav/Vehicle-number-plate-detection-on-MATLAB',
-    keywords: ['vehicle', 'plate', 'ocr', 'matlab'],
-  },
-];
-
-const findRepoForPost = (post) => {
-  const haystack = `${post.title || ''} ${post.categories?.join(' ') || ''} ${stripHtml(post.description)}`.toLowerCase();
-  return GITHUB_REPOS.find((repo) =>
-    repo.keywords.some((keyword) => haystack.includes(keyword.toLowerCase()))
-  );
-};
-
 const stripHtml = (html = '') => {
   const template = document.createElement('template');
   template.innerHTML = html;
@@ -131,7 +91,6 @@ const Blogs = () => {
             <div className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((post, index) => {
                 const excerpt = stripHtml(post.description).slice(0, 170);
-                const githubRepo = findRepoForPost(post);
                 const cover = getMediumCover(post);
                 const date = post.pubDate
                   ? new Date(post.pubDate).toLocaleDateString(undefined, {
@@ -186,16 +145,6 @@ const Blogs = () => {
                       >
                         read article ↗
                       </a>
-                      {githubRepo ? (
-                        <a
-                          href={githubRepo.repo}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="mt-5 ml-4 inline-block text-xs text-muted transition-colors hover:text-white"
-                        >
-                          github repo ↗
-                        </a>
-                      ) : null}
                     </article>
                   </RevealItem>
                 );
