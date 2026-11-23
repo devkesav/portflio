@@ -33,7 +33,7 @@ const Nav = () => {
           kesavaraj@portfolio<span className="text-muted">:~$</span>
         </a>
 
-        <nav className="hidden items-center gap-3 text-[13px] text-muted md:flex lg:gap-5">
+        <nav className="hidden items-center gap-3 text-[13px] text-muted lg:flex xl:gap-5">
           {localizedLinks.map((link) => (
             <a
               key={link.href}
@@ -63,7 +63,7 @@ const Nav = () => {
           </button>
         </nav>
 
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <select
             value={language}
             onChange={(event) => setLanguage(event.target.value)}
@@ -95,7 +95,7 @@ const Nav = () => {
       </div>
 
       {open ? (
-        <nav className="border-t border-line bg-black px-6 py-4 md:hidden">
+        <nav className="border-t border-line bg-black px-6 py-4 lg:hidden">
           <div className="flex flex-col gap-3 text-[13px] text-muted">
             {localizedLinks.map((link) => (
               <a

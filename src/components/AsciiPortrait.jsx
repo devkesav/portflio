@@ -156,7 +156,7 @@ const AsciiPortrait = () => {
   }, [cells, frame, noiseFrames, progress]);
 
   return (
-    <div className="hidden w-full justify-self-end md:flex md:flex-col md:items-end" aria-hidden="false">
+    <div className="hidden w-full justify-self-end lg:flex lg:flex-col lg:items-end" aria-hidden="false">
       <div ref={frameRef} className="ascii-frame border border-line bg-surface/40 p-2">
         <div className="mb-1 flex items-center justify-between text-[10px] leading-3 text-muted">
           <span>$ cat portrait.ascii</span>

@@ -32,6 +32,7 @@ export const useTheme = () => {
       const supportsTransitions =
         typeof document !== 'undefined' &&
         typeof document.startViewTransition === 'function' &&
+        window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
         !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       if (!supportsTransitions) {

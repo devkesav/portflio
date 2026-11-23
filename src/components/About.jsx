@@ -49,7 +49,7 @@ const About = () => {
         : facts.map((fact) => [fact.label, fact.value]);
 
   return (
-    <section id="about" className="border-b border-line py-12 md:py-16">
+    <section id="about" className="scroll-mt-14 border-b border-line py-12 md:py-16">
       <div className="shell">
         <SectionHeading index="01" kicker="about" title="A short readme." />
 

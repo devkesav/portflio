@@ -70,7 +70,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="flex min-h-[calc(100vh-3.5rem)] flex-col border-b border-line"
+      className="flex min-h-[calc(100vh-3.5625rem)] flex-col border-b border-line"
     >
       <div className="shell flex flex-1 flex-col py-4 md:py-5">
         <p className="text-[13px] text-muted">
@@ -79,7 +79,7 @@ const Hero = () => {
         </p>
 
         <div className="flex flex-1 items-center pt-3 md:pt-4">
-          <div className="grid w-full items-center gap-8 md:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] md:gap-12 xl:gap-16">
+          <div className="hero-content-grid grid w-full items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-10 xl:gap-12">
             {/* Left column: every block shares the same max-w-xl measure. */}
             <div className="w-full max-w-xl">
               <h1 className="min-h-[1.02em] text-5xl font-medium leading-[1.02] tracking-tight text-white sm:text-6xl md:text-[56px] xl:text-[72px]">
@@ -109,11 +109,11 @@ const Hero = () => {
                 </span>
               </h1>
 
-              <p className="mt-4 text-lg text-neutral-300 md:text-xl">
+              <p className="hero-role mt-4 text-lg text-neutral-300 md:text-xl">
                 <TypewriterText text={copy.role} speed={24} delay={650} />
               </p>
 
-              <div className="mt-7 space-y-2.5 text-[15px] leading-8 text-neutral-400">
+              <div className="hero-intro mt-7 space-y-2.5 text-[15px] leading-7 text-neutral-400">
                 <p className="text-muted">{copy.command}</p>
                 <p>
                   <RevealWords>{copy.intro}</RevealWords>
@@ -121,16 +121,16 @@ const Hero = () => {
               </div>
 
               <div
-                className={`mt-8 flex items-center ${
+                className={`hero-actions mt-6 flex items-center ${
                   isTamil
                     ? 'max-w-full flex-nowrap gap-2 overflow-x-auto'
-                    : 'flex-wrap gap-4'
+                    : 'flex-wrap gap-3'
                 }`}
               >
                 <a
                   href="#projects"
                   className={`hero-action-link border border-line py-2 text-[13px] text-neutral-300 transition-colors ${
-                    isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-5'
+                    isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-3'
                   }`}
                 >
                   {copy.projects}
@@ -140,7 +140,7 @@ const Hero = () => {
                   target="_blank"
                   rel="noreferrer"
                   className={`hero-action-link border border-line py-2 text-[13px] text-neutral-300 transition-colors ${
-                    isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-5'
+                    isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-3'
                   }`}
                 >
                   linkedin ↗
@@ -148,7 +148,7 @@ const Hero = () => {
                 <a
                   href="#blogs"
                   className={`hero-action-link border border-line py-2 text-[13px] text-neutral-300 transition-colors ${
-                    isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-5'
+                    isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-3'
                   }`}
                 >
                   {copy.blogs}
@@ -157,35 +157,35 @@ const Hero = () => {
                   href={`${import.meta.env.BASE_URL}resume.pdf`}
                   download="Kesavaraj-K-Resume.pdf"
                   className={`hero-action-link border border-line py-2 text-[13px] text-neutral-300 transition-colors ${
-                    isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-5'
+                    isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-3'
                   }`}
                 >
                   resume.pdf ↓
                 </a>
               </div>
 
-              <aside className="mt-5 w-full border border-line bg-surface/50 p-4 text-xs">
+              <aside className="hero-status mt-4 w-full border border-line bg-surface/50 p-3 text-[10px] lg:text-[9px]">
                 <p className="text-muted">$ cat status</p>
-                <dl className="mt-3 space-y-2">
-                  <div className="grid grid-cols-[7.5rem_minmax(0,1fr)] items-baseline gap-4">
+                <dl className="mt-2 space-y-1.5">
+                  <div className="grid grid-cols-[6rem_minmax(0,1fr)] items-baseline gap-2 sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:gap-4">
                     <dt className="text-muted">focus</dt>
                     <dd className="text-right text-neutral-300">{copy.focus}</dd>
                   </div>
-                  <div className="grid grid-cols-[7.5rem_minmax(0,1fr)] items-baseline gap-4">
+                  <div className="grid grid-cols-[6rem_minmax(0,1fr)] items-baseline gap-2 sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:gap-4">
                     <dt className="text-muted">year</dt>
                     <dd className="text-right text-neutral-300">{copy.year}</dd>
                   </div>
-                  <div className="grid grid-cols-[7.5rem_minmax(0,1fr)] items-baseline gap-4">
+                  <div className="grid grid-cols-[6rem_minmax(0,1fr)] items-baseline gap-2 sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:gap-4">
                     <dt className="text-muted">location</dt>
                     <dd className="text-right text-neutral-300">{copy.location}</dd>
                   </div>
-                  <div className="grid grid-cols-[7.5rem_minmax(0,1fr)] items-baseline gap-4">
+                  <div className="grid grid-cols-[6rem_minmax(0,1fr)] items-baseline gap-2 sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:gap-4">
                     <dt className="text-muted">current_project</dt>
-                    <dd className="text-right leading-5 text-neutral-300">
+                    <dd className="text-right leading-4 text-neutral-300">
                       {copy.currentProject}
                     </dd>
                   </div>
-                  <div className="grid grid-cols-[7.5rem_minmax(0,1fr)] items-baseline gap-4 border-t border-line pt-2">
+                  <div className="grid grid-cols-[6rem_minmax(0,1fr)] items-baseline gap-2 border-t border-line pt-1.5 sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:gap-4">
                     <dt className="text-muted">open</dt>
                     <dd className="ml-auto flex items-center justify-end gap-2 text-right text-neutral-300">
                       <span className="inline-block h-1.5 w-1.5 bg-white" />
@@ -194,7 +194,7 @@ const Hero = () => {
                   </div>
                 </dl>
               </aside>
-              <p className="mt-3 text-[11px] leading-5 text-muted">
+              <p className="hero-footer mt-3 text-[11px] leading-5 text-muted">
                 {copy.footer}
               </p>
             </div>
