@@ -176,7 +176,9 @@ body::after {
 }
 
 .hero-name.is-revealed .hero-name-d {
-  animation: hero-d-surge 520ms 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation:
+    hero-d-surge 520ms 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both,
+    hero-d-glow 1.9s 700ms ease-in-out infinite alternate;
 }
 
 .hero-name::after {
@@ -231,6 +233,16 @@ body::after {
   100% {
     opacity: 1;
     transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes hero-d-glow {
+  from {
+    filter: drop-shadow(0 0 1px rgba(255, 48, 48, 0.25));
+  }
+
+  to {
+    filter: drop-shadow(0 0 2px rgba(255, 48, 48, 0.4));
   }
 }
 
