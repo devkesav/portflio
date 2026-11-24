@@ -15,15 +15,15 @@ const ProjectCard = ({ project, index, onClick, featured = false }) => {
     <article
       className={
         featured
-          ? 'grid gap-6 border-y border-line py-6 md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] md:items-center md:gap-10 md:py-8'
-          : 'grid gap-5 border-b border-line py-6 last:border-b-0 sm:grid-cols-[minmax(12rem,0.8fr)_minmax(0,1.2fr)] sm:items-center sm:gap-8'
+          ? 'grid gap-6 border-y border-line py-6 lg:grid-cols-2 lg:items-center lg:gap-10 lg:py-8'
+          : 'grid gap-5 border-b border-line py-6 last:border-b-0 lg:grid-cols-2 lg:items-center lg:gap-10'
       }
     >
       <a
         href={detailHref}
         onClick={navigateToDetail}
         aria-label={`View ${project.name} project details`}
-        className={`group block overflow-hidden bg-surface ${featured ? 'aspect-[16/9]' : 'aspect-[16/9] sm:aspect-[4/3]'}`}
+        className="group block aspect-[16/9] overflow-hidden bg-surface"
       >
         <img
           src={project.imageUrl}
