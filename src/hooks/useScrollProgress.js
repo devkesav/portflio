@@ -10,31 +10,42 @@ export const useScrollProgress = () => {
   const [totalHeight, setTotalHeight] = useState(0);
 
   useEffect(() => {
-    // Set initial height on mount
-    const updateHeight = () => {
-      setTotalHeight(document.documentElement.scrollHeight - window.innerHeight);
-    };
-    updateHeight();
-    window.addEventListener('resize', updateHeight);
+    let animationFrame = null;
+    const updateProgress = () => {
+      if (animationFrame !== null) return;
 
-    // Update progress on scroll event
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      if (totalHeight > 0) {
-        setProgress(scrollTop / totalHeight);
-      } else if (scrollTop > 0) {
-         // Fallback if height hasn't been calculated yet but scrolling has started
-         setProgress(scrollTop / 1000); // Arbitrary large number fallback
-      }
+      animationFrame = window.requestAnimationFrame(() => {
+        animationFrame = null;
+        const documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.body.scrollHeight
+        );
+        const scrollableHeight = Math.max(0, documentHeight - window.innerHeight);
+        const scrollTop = Math.max(0, window.scrollY);
+
+        setTotalHeight(scrollableHeight);
+        setProgress(
+          scrollableHeight === 0 ? 0 : Math.min(scrollTop, scrollableHeight) / scrollableHeight
+        );
+      });
     };
 
-    window.addEventListener('scroll', handleScroll);
+    updateProgress();
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+
+    const resizeObserver =
+      typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(updateProgress);
+    resizeObserver?.observe(document.documentElement);
+    resizeObserver?.observe(document.body);
 
     return () => {
-      window.removeEventListener('resize', updateHeight);
-      window.removeEventListener('scroll', handleScroll);
+      if (animationFrame !== null) window.cancelAnimationFrame(animationFrame);
+      resizeObserver?.disconnect();
+      window.removeEventListener('resize', updateProgress);
+      window.removeEventListener('scroll', updateProgress);
     };
-  }, [totalHeight]);
+  }, []);
 
   return [progress, totalHeight];
 };

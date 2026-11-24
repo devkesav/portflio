@@ -156,7 +156,8 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
 
       <div
         className="absolute bottom-0 left-0 h-px bg-white/70 transition-[width] duration-150"
-        style={{ width: `${Math.max(1, scrollProgress * 100)}%` }}
+        style={{ width: `${scrollProgress * 100}%` }}
+        aria-hidden="true"
       />
     </header>
   );
