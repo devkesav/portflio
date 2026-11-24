@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Nav from './components/Nav';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -9,26 +9,134 @@ import Achievements from './components/Achievements';
 import Blogs from './components/Blogs';
 import Contact from './components/Contact';
 import ProjectDetail from './components/ProjectDetail';
+import Stories from './components/Stories';
+import { getCurrentRoutePath, normalizeRoutePath, routeHref } from './routes';
+
+const SECTION_IDS = {
+  '/': 'hero',
+  '/about': 'about',
+  '/work': 'work',
+  '/experience': 'experience',
+  '/skills': 'skills',
+  '/achievements': 'achievements',
+  '/blogs': 'blogs',
+  '/contact': 'contact',
+};
+const STORY_PATHS = new Set(['/stories', '/stories/creator-moments']);
 
 const App = () => {
-  const [activeProjectId, setActiveProjectId] = useState(null);
+  const [currentPath, setCurrentPath] = useState(getCurrentRoutePath);
+  const storiesReturnPathRef = useRef('');
+  const storiesOpen = STORY_PATHS.has(currentPath);
+  const storyOpened = currentPath === '/stories/creator-moments';
+  const activeProjectId = currentPath.startsWith('/work/')
+    ? currentPath.slice('/work/'.length)
+    : null;
+
+  const scrollToRoute = (path) => {
+    const sectionId = SECTION_IDS[path];
+    if (!sectionId) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    if (sectionId === 'hero') {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      return;
+    }
+
+    section.scrollIntoView({ block: 'start', behavior: 'instant' });
+  };
+
+  const navigateTo = (path, { replace = false } = {}) => {
+    const nextPath = normalizeRoutePath(path);
+    const nextUrl = routeHref(nextPath);
+
+    if (
+      window.location.pathname !== nextUrl ||
+      window.location.search ||
+      window.location.hash
+    ) {
+      window.history[replace ? 'replaceState' : 'pushState']({}, '', nextUrl);
+    }
+
+    setCurrentPath(nextPath);
+    if (nextPath === currentPath) scrollToRoute(nextPath);
+  };
+
+  const openStories = () => {
+    if (!storiesOpen) storiesReturnPathRef.current = currentPath;
+    navigateTo('/stories');
+  };
+
+  const closeStories = () => {
+    const returnPath = storiesReturnPathRef.current || '/';
+    storiesReturnPathRef.current = '';
+    navigateTo(returnPath, { replace: true });
+  };
+
+  const openStoryPost = () => navigateTo('/stories/creator-moments');
+  const backToStoryCover = () => navigateTo('/stories', { replace: true });
+  const declineStories = () => {
+    storiesReturnPathRef.current = '';
+    navigateTo('/');
+  };
+
+  useLayoutEffect(() => {
+    scrollToRoute(currentPath);
+  }, [currentPath]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [activeProjectId]);
+    const syncPath = () => {
+      const path = getCurrentRoutePath();
+      const canonicalUrl = routeHref(path);
+      if (window.location.pathname !== canonicalUrl) {
+        window.history.replaceState({}, '', canonicalUrl);
+      }
+      setCurrentPath(path);
+    };
+
+    window.addEventListener('popstate', syncPath);
+    syncPath();
+    return () => window.removeEventListener('popstate', syncPath);
+  }, []);
 
   return (
     <div className="min-h-screen bg-black">
-      <Nav />
+      <Nav
+        storiesOpen={storiesOpen}
+        onStoriesClick={openStories}
+        onNavigate={navigateTo}
+      />
 
       <main>
         {activeProjectId ? (
-          <ProjectDetail projectId={activeProjectId} onBack={() => setActiveProjectId(null)} />
+          <ProjectDetail
+            projectId={activeProjectId}
+            onBack={() => navigateTo('/work', { replace: true })}
+          />
+        ) : !SECTION_IDS[currentPath] && !STORY_PATHS.has(currentPath) ? (
+          <div className="mx-auto max-w-3xl px-6 py-20 text-center">
+            <p className="text-xs text-muted">error: 404 — page not found</p>
+            <a
+              href={routeHref('/')}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateTo('/');
+              }}
+              className="mt-8 inline-block text-xs text-neutral-300 hover:text-white"
+            >
+              ← return home
+            </a>
+          </div>
         ) : (
           <>
-            <Hero />
+            <Hero onNavigate={navigateTo} />
             <About />
-            <Projects onProjectClick={setActiveProjectId} />
+            <Projects onProjectClick={(projectId) => navigateTo(`/work/${projectId}`)} />
             <Experience />
             <Skills />
             <Achievements />
@@ -51,13 +159,30 @@ const App = () => {
             <a href="mailto:k.kesavaraj86@gmail.com" className="hover:text-neutral-300">
               email
             </a>
-            <a href="#hero" className="hover:text-neutral-300">
+            <a
+              href={routeHref('/')}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateTo('/');
+              }}
+              className="hover:text-neutral-300"
+            >
               top
             </a>
             <span>© {new Date().getFullYear()}</span>
           </div>
         </div>
       </footer>
+
+      {storiesOpen ? (
+        <Stories
+          onClose={closeStories}
+          onNavigate={declineStories}
+          storyOpened={storyOpened}
+          onOpenStory={openStoryPost}
+          onBackToCover={backToStoryCover}
+        />
+      ) : null}
     </div>
   );
 };

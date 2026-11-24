@@ -6,7 +6,7 @@ import { projects } from '../data/projects';
 
 const Projects = ({ onProjectClick }) => {
   return (
-    <section id="projects" className="border-b border-line py-12 md:py-16">
+    <section id="work" className="scroll-mt-14 border-b border-line py-12 md:py-16">
       <div className="shell">
         <SectionHeading
           index="02"

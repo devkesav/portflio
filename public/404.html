@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirecting…</title>
+    <script>
+      (function () {
+        var path = window.location.pathname;
+        var base =
+          path === '/portfolio' || path.startsWith('/portfolio/')
+            ? '/portfolio/'
+            : '/';
+        var route =
+          window.location.pathname.slice(base.length) +
+          window.location.search +
+          window.location.hash;
+        window.location.replace(`${base}?__route=${encodeURIComponent(route)}`);
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting…</p>
+  </body>
+</html>

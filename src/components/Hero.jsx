@@ -2,8 +2,9 @@ import React from 'react';
 import AsciiPortrait from './AsciiPortrait';
 import { RevealWords, TypewriterText } from './RevealText';
 import { useLanguage } from '../context/LanguageContext';
+import { routeHref } from '../routes';
 
-const Hero = () => {
+const Hero = ({ onNavigate }) => {
   const { language } = useLanguage();
   const isTamil = language === 'ta';
   const [isNameHovered, setIsNameHovered] = React.useState(false);
@@ -24,7 +25,7 @@ const Hero = () => {
           role: 'மின் மற்றும் உட்பொதிக்கப்பட்ட அமைப்புகள் பொறியாளர்',
           command: '$ cat பற்றி.txt',
           intro: 'கே.பி.ஆர். பொறியியல் மற்றும் தொழில்நுட்பக் கல்லூரியில் மின் மற்றும் மின்னணு பொறியியல் இளங்கலை மாணவராகப் படிக்கிறேன். பவர் எலக்ட்ரானிக்ஸ், கட்டுப்பாட்டு அமைப்புகள், உட்பொதிக்கப்பட்ட வன்பொருள் மற்றும் பயன்பாட்டு எந்திரக் கற்றல் துறைகளை ஆராய்கிறேன் — MATLAB/Simulink மாதிரியாக்கம் மற்றும் Arduino/ESP32 முன்மாதிரிகள் தொடங்கி புத்திசாலி மென்பொருள் அமைப்புகள் வரை.',
-          projects: './தொழில்கள்',
+          work: './தொழில்கள்',
           blogs: './எழுத்துகள்',
           focus: 'மின் மின்னணுவியல், rl கட்டுப்பாடு',
           year: 'பி.இ. மின் மின்னணுவியல், 2024–2028',
@@ -41,7 +42,7 @@ const Hero = () => {
             role: '電気電子エンジニア',
             command: '$ cat about.txt',
             intro: 'KPR工科大学で電気電子工学を学びながら、パワーエレクトロニクス、制御システム、組込みハードウェア、応用機械学習を探究しています。MATLAB/SimulinkのモデリングやArduino/ESP32のプロトタイプから、インテリジェントなソフトウェアシステムまで幅広く取り組んでいます。',
-            projects: './仕事',
+            work: './仕事',
             blogs: './記事',
             focus: 'パワーエレクトロニクス、RL制御',
             year: 'B.E. 電気工学、2024–2028',
@@ -57,7 +58,7 @@ const Hero = () => {
             role: 'Electrical and Electronics Engineer',
             command: '$ cat about.txt',
             intro: 'Electrical and Electronics Engineering undergraduate at KPR Institute of Engineering and Technology, exploring power electronics, control systems, embedded hardware, and applied machine learning — from MATLAB/Simulink models and Arduino/ESP32 prototypes to intelligent software systems.',
-            projects: './projects',
+            work: './work',
             blogs: './blogs',
             focus: 'power electronics, rl control',
             year: 'b.e. electrical and electronics engineering, 2024–2028',
@@ -128,12 +129,16 @@ const Hero = () => {
                 }`}
               >
                 <a
-                  href="#projects"
+                  href={routeHref('/work')}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    onNavigate('/work');
+                  }}
                   className={`hero-action-link border border-line py-2 text-[13px] text-neutral-300 transition-colors ${
                     isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-3'
                   }`}
                 >
-                  {copy.projects}
+                  {copy.work}
                 </a>
                 <a
                   href="https://www.linkedin.com/in/devkesav"
@@ -146,7 +151,11 @@ const Hero = () => {
                   linkedin ↗
                 </a>
                 <a
-                  href="#blogs"
+                  href={routeHref('/blogs')}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    onNavigate('/blogs');
+                  }}
                   className={`hero-action-link border border-line py-2 text-[13px] text-neutral-300 transition-colors ${
                     isTamil ? 'shrink-0 whitespace-nowrap px-3' : 'px-3'
                   }`}

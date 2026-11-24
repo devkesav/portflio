@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import { useScrollProgress } from '../hooks/useScrollProgress';
 import { useTheme } from '../hooks/useTheme';
 import { useLanguage } from '../context/LanguageContext';
+import { routeHref } from '../routes';
 
 const links = [
-  { href: '#about', label: 'about' },
-  { href: '#projects', label: 'work' },
-  { href: '#experience', label: 'experience' },
-  { href: '#skills', label: 'skills' },
-  { href: '#blogs', label: 'blogs' },
-  { href: '#contact', label: 'contact' },
+  { path: '/about', label: 'about' },
+  { path: '/work', label: 'work' },
+  { path: '/experience', label: 'experience' },
+  { path: '/skills', label: 'skills' },
+  { path: '/blogs', label: 'blogs' },
+  { path: '/stories', label: 'stories', special: true },
+  { path: '/contact', label: 'contact' },
 ];
 
-const Nav = () => {
+const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
   const [scrollProgress] = useScrollProgress();
   const [open, setOpen] = useState(false);
   const { theme, toggle } = useTheme();
@@ -20,28 +22,51 @@ const Nav = () => {
 
   const labels =
     language === 'ta'
-      ? ['என்னைப்பற்றி', 'தொழில்கள்', 'அனுபவம்', 'திறன்கள்', 'எழுத்துகள்', 'தொடர்பு']
+      ? ['என்னைப்பற்றி', 'தொழில்கள்', 'அனுபவம்', 'திறன்கள்', 'எழுத்துகள்', 'கதைகள்', 'தொடர்பு']
       : language === 'ja'
-        ? ['自己紹介', '仕事', '経験', 'スキル', '記事', '連絡']
-        : ['about', 'work', 'experience', 'skills', 'blogs', 'contact'];
+        ? ['自己紹介', '仕事', '経験', 'スキル', '記事', 'ストーリー', '連絡']
+        : ['about', 'work', 'experience', 'skills', 'blogs', 'stories', 'contact'];
   const localizedLinks = links.map((link, index) => ({ ...link, label: labels[index] }));
+  const navigate = (event, path) => {
+    event.preventDefault();
+    onNavigate(path);
+  };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-black/90 backdrop-blur">
+    <header
+      className="sticky top-0 z-40 border-b border-line bg-black/90 backdrop-blur"
+      style={storiesOpen ? { zIndex: 80 } : undefined}
+    >
       <div className="shell flex h-14 items-center justify-between">
-        <a href="#hero" className="text-[13px] text-white">
-          kesavaraj@portfolio<span className="text-muted">:~$</span>
+        <a
+          href={routeHref('/')}
+          onClick={(event) => navigate(event, '/')}
+          className="text-[13px] text-white"
+        >
+          kesavaraj<span className="hidden sm:inline">@portfolio</span><span className="text-muted">:~$</span>
         </a>
 
         <nav className="hidden items-center gap-3 text-[13px] text-muted lg:flex xl:gap-5">
           {localizedLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="transition-colors hover:text-white"
-            >
-              ./{link.label}
-            </a>
+            link.special ? (
+              <button
+                key={link.path}
+                type="button"
+                onClick={onStoriesClick}
+                className="stories-link transition-colors hover:text-white"
+              >
+                ./{link.label}
+              </button>
+            ) : (
+              <a
+                key={link.path}
+                href={routeHref(link.path)}
+                onClick={(event) => navigate(event, link.path)}
+                className="transition-colors hover:text-white"
+              >
+                ./{link.label}
+              </a>
+            )
           ))}
           <select
             value={language}
@@ -98,14 +123,32 @@ const Nav = () => {
         <nav className="border-t border-line bg-black px-6 py-4 lg:hidden">
           <div className="flex flex-col gap-3 text-[13px] text-muted">
             {localizedLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="hover:text-white"
-              >
-                ./{link.label}
-              </a>
+              link.special ? (
+                <button
+                  key={link.path}
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    onStoriesClick();
+                  }}
+                  className="stories-link w-fit transition-colors hover:text-white"
+                >
+                  ./{link.label}
+                </button>
+              ) : (
+                <a
+                  key={link.path}
+                  href={routeHref(link.path)}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setOpen(false);
+                    onNavigate(link.path);
+                  }}
+                  className="hover:text-white"
+                >
+                  ./{link.label}
+                </a>
+              )
             ))}
           </div>
         </nav>

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
@@ -10,6 +10,19 @@
     />
     <meta name="theme-color" content="#000000" />
     <title>Kesavaraj K | Electrical and Electronics Engineer</title>
+    <script>
+      (function () {
+        var route = new URLSearchParams(window.location.search).get('__route');
+        if (
+          route &&
+          !route.startsWith('/') &&
+          !route.includes('\\') &&
+          !route.split('/').includes('..')
+        ) {
+          window.history.replaceState(null, '', `${window.location.pathname}${route}`);
+        }
+      })();
+    </script>
     <script>
       (function () {
         try {

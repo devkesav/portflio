@@ -5,7 +5,7 @@ import { experience } from '../data/experience';
 
 const Experience = () => {
   return (
-    <section id="experience" className="border-b border-line py-12 md:py-16">
+    <section id="experience" className="scroll-mt-14 border-b border-line py-12 md:py-16">
       <div className="shell">
         <SectionHeading index="03" kicker="experience" title="Where I've spent my time." />
 

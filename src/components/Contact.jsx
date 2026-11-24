@@ -25,7 +25,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-12 md:py-16">
+    <section id="contact" className="scroll-mt-14 py-12 md:py-16">
       <div className="shell">
         <SectionHeading
           index="07"
