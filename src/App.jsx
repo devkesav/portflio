@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import Nav from './components/Nav';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -10,7 +10,12 @@ import Blogs from './components/Blogs';
 import Contact from './components/Contact';
 import ProjectDetail from './components/ProjectDetail';
 import Stories from './components/Stories';
-import { getCurrentRoutePath, normalizeRoutePath, routeHref } from './routes';
+import {
+  getCurrentRoutePath,
+  normalizeRoutePath,
+  routeHref,
+  STORY_ROUTES,
+} from './routes';
 
 const SECTION_IDS = {
   '/': 'hero',
@@ -22,13 +27,11 @@ const SECTION_IDS = {
   '/blogs': 'blogs',
   '/contact': 'contact',
 };
-const STORY_PATHS = new Set(['/stories', '/stories/creator-moments']);
+const STORY_PATHS = new Set(Object.values(STORY_ROUTES));
 
 const App = () => {
   const [currentPath, setCurrentPath] = useState(getCurrentRoutePath);
-  const storiesReturnPathRef = useRef('');
   const storiesOpen = STORY_PATHS.has(currentPath);
-  const storyOpened = currentPath === '/stories/creator-moments';
   const activeProjectId = currentPath.startsWith('/work/')
     ? currentPath.slice('/work/'.length)
     : null;
@@ -67,23 +70,11 @@ const App = () => {
     if (nextPath === currentPath) scrollToRoute(nextPath);
   };
 
-  const openStories = () => {
-    if (!storiesOpen) storiesReturnPathRef.current = currentPath;
-    navigateTo('/stories');
-  };
+  const openStories = () => navigateTo(STORY_ROUTES.hub);
 
-  const closeStories = () => {
-    const returnPath = storiesReturnPathRef.current || '/';
-    storiesReturnPathRef.current = '';
-    navigateTo(returnPath, { replace: true });
-  };
-
-  const openStoryPost = () => navigateTo('/stories/creator-moments');
-  const backToStoryCover = () => navigateTo('/stories', { replace: true });
-  const declineStories = () => {
-    storiesReturnPathRef.current = '';
-    navigateTo('/');
-  };
+  const openStoryPost = () => navigateTo(STORY_ROUTES.memoryPost);
+  const backToStoryCover = () => navigateTo(STORY_ROUTES.memories, { replace: true });
+  const backToStories = () => navigateTo(STORY_ROUTES.hub, { replace: true });
 
   useLayoutEffect(() => {
     scrollToRoute(currentPath);
@@ -105,20 +96,28 @@ const App = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="flex min-h-screen flex-col bg-black">
       <Nav
         storiesOpen={storiesOpen}
         onStoriesClick={openStories}
         onNavigate={navigateTo}
       />
 
-      <main>
+      <main className="flex flex-1 flex-col">
         {activeProjectId ? (
           <ProjectDetail
             projectId={activeProjectId}
             onBack={() => navigateTo('/work', { replace: true })}
           />
-        ) : !SECTION_IDS[currentPath] && !STORY_PATHS.has(currentPath) ? (
+        ) : STORY_PATHS.has(currentPath) ? (
+          <Stories
+            path={currentPath}
+            onNavigate={navigateTo}
+            onOpenStory={openStoryPost}
+            onBackToCover={backToStoryCover}
+            onBackToStories={backToStories}
+          />
+        ) : !SECTION_IDS[currentPath] ? (
           <div className="mx-auto max-w-3xl px-6 py-20 text-center">
             <p className="text-xs text-muted">error: 404 — page not found</p>
             <a
@@ -173,16 +172,6 @@ const App = () => {
           </div>
         </div>
       </footer>
-
-      {storiesOpen ? (
-        <Stories
-          onClose={closeStories}
-          onNavigate={declineStories}
-          storyOpened={storyOpened}
-          onOpenStory={openStoryPost}
-          onBackToCover={backToStoryCover}
-        />
-      ) : null}
     </div>
   );
 };

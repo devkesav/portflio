@@ -27,7 +27,7 @@ const items = [
 
 const Achievements = () => {
   return (
-    <section id="achievements" className="scroll-mt-14 border-b border-line py-12 md:py-16">
+    <section id="achievements" className="scroll-mt-14 py-12 md:py-16">
       <div className="shell">
         <SectionHeading index="05" kicker="milestones" title="A few things worth mentioning." />
 

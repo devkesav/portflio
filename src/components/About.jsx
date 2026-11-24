@@ -28,7 +28,18 @@ const About = () => {
             'カリキュラムと並行して、人工知能、コンピュータービジョン、ローカル言語モデル、CUDA、GPUコンピューティングを学んでいます。ハードウェアとソフトウェアをつなぎ、実用的なエンジニアリングソリューションを開発することに興味があります。',
             '新しい技術を試し、プロトタイプを作り、問題を解決し、ハードウェアの挙動からソフトウェアのロジックまでシステムを理解することが好きです。',
           ]
-        : null;
+        : [
+            'I’m an Electrical and Electronics Engineering undergraduate at KPR Institute of Engineering and Technology, working at the intersection of electrical engineering, embedded systems, and intelligent computing.',
+            'My core interests are power electronics, electrical machines, control systems, and circuit analysis. I use MATLAB and Simulink to model physical systems, and Arduino or ESP32 boards to turn those ideas into working hardware prototypes.',
+            'Alongside my degree, I explore artificial intelligence, computer vision, local language models, CUDA programming, and GPU computing — especially where they connect hardware and software.',
+            'I learn by building, debugging, and measuring. Whether it is an embedded prototype or a control model, I want to understand the system from hardware behaviour to software logic.',
+          ];
+  const editorialLabels =
+    language === 'ta'
+      ? { interests: 'தொழில்நுட்ப ஆர்வங்கள்', approach: 'என் பொறியியல் அணுகுமுறை', education: 'கல்வி' }
+      : language === 'ja'
+        ? { interests: '技術分野', approach: 'エンジニアリングの姿勢', education: '学歴' }
+        : { interests: 'Technical interests', approach: 'How I work', education: 'Education' };
   const localizedFacts =
     language === 'ta'
       ? [
@@ -49,42 +60,68 @@ const About = () => {
         : facts.map((fact) => [fact.label, fact.value]);
 
   return (
-    <section id="about" className="scroll-mt-14 border-b border-line py-12 md:py-16">
+    <section id="about" className="scroll-mt-14 py-12 md:py-16">
       <div className="shell">
         <SectionHeading index="01" kicker="about" title="A short readme." />
 
-        <div className="grid gap-10 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:gap-16">
-          {/* Two balanced text columns instead of one narrow column with dead space */}
-          <div className="text-[14px] leading-7 text-neutral-400 md:columns-2 md:gap-10 md:text-[15px] [&>p]:mb-4">
-            <p className="text-muted">
-              <RevealWords>$ cat about.md</RevealWords>
+        <div className="grid gap-10 md:grid-cols-[minmax(0,1.5fr)_minmax(16rem,0.8fr)] md:gap-16">
+          <div>
+            <p className="mb-4 text-xs text-muted">$ cat about.md</p>
+            <p className="max-w-3xl font-sans text-[15px] leading-7 text-neutral-300">
+              <RevealWords>{paragraphs[0]}</RevealWords>
             </p>
-            {paragraphs ? paragraphs.map((paragraph, index) => (
-              <p key={index}><RevealWords delay={index * 700}>{paragraph}</RevealWords></p>
-            )) : (
-              <>
-                <p><RevealWords>I&rsquo;m an Electrical and Electronics Engineering undergraduate at KPR Institute of Engineering and Technology, working at the intersection of electrical engineering, embedded systems, and intelligent computing.</RevealWords></p>
-                <p><RevealWords delay={700}>My core interests are power electronics, electrical machines, control systems, and circuit analysis. I use MATLAB and Simulink to model physical systems, and Arduino or ESP32 boards to turn those ideas into working hardware prototypes.</RevealWords></p>
-                <p><RevealWords delay={1400}>Beyond the core curriculum, I explore artificial intelligence, computer vision, local language models, CUDA programming, and GPU computing — with a focus on connecting hardware and software to build practical engineering solutions.</RevealWords></p>
-                <p><RevealWords delay={2100}>I learn by building, debugging, and measuring. Whether it is an embedded prototype or a control model, I care about understanding the system from hardware behaviour to software logic.</RevealWords></p>
-              </>
-            )}
+
+            <div className="mt-8 grid gap-7 sm:grid-cols-2 sm:gap-9">
+              <section>
+                <h3 className="text-[11px] tracking-widest text-muted">
+                  {editorialLabels.interests}
+                </h3>
+                <p className="mt-3 font-sans text-sm leading-7 text-neutral-400">
+                  <RevealWords delay={300}>{paragraphs[1]}</RevealWords>
+                </p>
+                <p className="mt-3 font-sans text-sm leading-7 text-neutral-400">
+                  <RevealWords delay={500}>{paragraphs[2]}</RevealWords>
+                </p>
+              </section>
+              <section>
+                <h3 className="text-[11px] tracking-widest text-muted">
+                  {editorialLabels.approach}
+                </h3>
+                <p className="mt-3 font-sans text-sm leading-7 text-neutral-400">
+                  <RevealWords delay={700}>{paragraphs[3]}</RevealWords>
+                </p>
+              </section>
+            </div>
           </div>
 
-          <dl className="h-fit border-t border-line text-[13px]">
-            {localizedFacts.map(([label, value], index) => (
-              <RevealItem
-                key={label}
-                delay={index * 120}
-                className="border-b border-line"
-              >
-                <dl className="flex items-baseline justify-between gap-6 py-2.5">
-                  <dt className="text-muted">{label}</dt>
-                  <dd className="text-right text-neutral-300">{value}</dd>
-                </dl>
-              </RevealItem>
-            ))}
-          </dl>
+          <aside>
+            <h3 className="text-[11px] tracking-widest text-muted">{editorialLabels.education}</h3>
+            <div className="mt-3 border-t border-line py-3">
+              <p className="font-sans text-sm leading-6 text-white">
+                {localizedFacts[1][1]}
+              </p>
+              <p className="mt-1 font-sans text-[13px] leading-6 text-neutral-400">
+                KPR Institute of Engineering and Technology
+              </p>
+              <p className="mt-2 text-[11px] text-muted">{localizedFacts[2][1]}</p>
+            </div>
+            <dl className="border-t border-line text-[12px]">
+              {localizedFacts
+                .filter((_, index) => index !== 1 && index !== 2)
+                .map(([label, value], index) => (
+                  <RevealItem
+                    key={label}
+                    delay={index * 120}
+                    className="border-b border-line"
+                  >
+                    <div className="flex items-baseline justify-between gap-4 py-2.5">
+                      <dt className="shrink-0 text-muted">{label}</dt>
+                      <dd className="text-right font-sans text-neutral-300">{value}</dd>
+                    </div>
+                  </RevealItem>
+                ))}
+            </dl>
+          </aside>
         </div>
       </div>
     </section>

@@ -1,42 +1,79 @@
 import React from 'react';
-import { RevealWords } from './RevealText';
+import { routeHref } from '../routes';
 
-const ProjectCard = ({ project, index, onClick }) => {
+const ProjectCard = ({ project, index, onClick, featured = false }) => {
+  const detailHref = routeHref(`/work/${project.id}`);
+  const navigateToDetail = (event) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
+      return;
+    }
+    event.preventDefault();
+    onClick(project.id);
+  };
+
   return (
-    <button
-      type="button"
-      onClick={() => onClick(project.id)}
-      className="group grid w-full grid-cols-[2rem_minmax(0,1fr)] gap-4 border-b border-line px-1 py-6 text-left transition-colors last:border-b-0 hover:bg-surface md:grid-cols-[2rem_minmax(0,1fr)_220px] md:gap-8"
+    <article
+      className={
+        featured
+          ? 'grid gap-6 border-y border-line py-6 md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] md:items-center md:gap-10 md:py-8'
+          : 'grid gap-5 border-b border-line py-6 last:border-b-0 sm:grid-cols-[minmax(12rem,0.8fr)_minmax(0,1.2fr)] sm:items-center sm:gap-8'
+      }
     >
-      <span className="pt-0.5 text-xs text-muted">{String(index).padStart(2, '0')}</span>
+      <a
+        href={detailHref}
+        onClick={navigateToDetail}
+        aria-label={`View ${project.name} project details`}
+        className={`group block overflow-hidden bg-surface ${featured ? 'aspect-[16/9]' : 'aspect-[16/9] sm:aspect-[4/3]'}`}
+      >
+        <img
+          src={project.imageUrl}
+          alt=""
+          loading={featured ? 'eager' : 'lazy'}
+          decoding="async"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+        />
+      </a>
 
       <div>
-        <h3 className="text-[15px] text-white group-hover:underline md:text-base">
-          {project.name}
+        <p className="text-[10px] tracking-widest text-muted">
+          PROJECT / {String(index).padStart(2, '0')}
+        </p>
+        <h3 className="mt-2 text-lg leading-7 text-white md:text-xl">
+          <a href={detailHref} onClick={navigateToDetail} className="hover:underline">
+            {project.name}
+          </a>
         </h3>
-        <p className="mt-2 max-w-3xl text-[13px] leading-6 text-neutral-400 md:text-sm">
-          <RevealWords delay={180}>{project.shortDescription}</RevealWords>
+        <p className="mt-3 max-w-2xl font-sans text-sm leading-7 text-neutral-400">
+          {project.shortDescription}
         </p>
 
-        {/* Mobile meta */}
-        <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 md:hidden">
-          <span className="text-[11px] tracking-wide text-muted">
-            {project.techStack.join(' · ')}
-          </span>
-          <span className="text-xs text-muted">open ↗</span>
+        <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 text-[11px] text-muted">
+          {project.techStack.map((technology) => (
+            <li key={technology}>{technology}</li>
+          ))}
+        </ul>
+
+        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs">
+          <a
+            href={detailHref}
+            onClick={navigateToDetail}
+            className="text-neutral-300 underline decoration-neutral-600 underline-offset-4 hover:text-white"
+          >
+            project notes ↗
+          </a>
+          {project.repositoryUrl ? (
+            <a
+              href={project.repositoryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted underline decoration-neutral-700 underline-offset-4 hover:text-white"
+            >
+              source code ↗
+            </a>
+          ) : null}
         </div>
       </div>
-
-      {/* Desktop meta column keeps the right edge occupied */}
-      <div className="hidden flex-col items-end justify-between md:flex">
-        <span className="max-w-[220px] text-right text-[11px] leading-5 tracking-wide text-muted">
-          {project.techStack.join(' · ')}
-        </span>
-        <span className="text-xs text-muted transition-colors group-hover:text-white">
-          open ↗
-        </span>
-      </div>
-    </button>
+    </article>
   );
 };
 

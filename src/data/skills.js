@@ -1,34 +1,46 @@
 export const skillGroups = [
   {
-    title: 'Hardware & embedded',
+    title: 'Hardware and Embedded Systems',
     items: [
       'ESP32 / Arduino',
       'Embedded C',
       'PCB design',
-      'LTspice',
-      'CODESYS',
-      'Power converters',
     ],
   },
   {
-    title: 'AI & control',
+    title: 'Power Electronics and Control Systems',
+    items: [
+      'Power converters',
+      'Model predictive control',
+      'LTspice',
+      'CODESYS',
+    ],
+  },
+  {
+    title: 'AI and Machine Learning',
     items: [
       'Reinforcement learning',
       'TinyML',
+      'Computer vision',
       'LLM integration',
       'MCP',
-      'MATLAB / Simulink',
-      'Model predictive control',
     ],
   },
   {
-    title: 'Software',
+    title: 'Software Development',
     items: [
       'Python',
       'Flutter',
       'React / JavaScript',
       'Firebase',
       'Git & GitHub',
+    ],
+  },
+  {
+    title: 'Engineering Tools',
+    items: [
+      'MATLAB / Simulink',
+      'CUDA / GPU computing',
       'LaTeX',
     ],
   },

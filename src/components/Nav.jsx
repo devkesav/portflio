@@ -46,7 +46,10 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
           kesavaraj<span className="hidden sm:inline">@portfolio</span><span className="text-muted">:~$</span>
         </a>
 
-        <nav className="hidden items-center gap-3 text-[13px] text-muted lg:flex xl:gap-5">
+        <nav
+          aria-label="Primary navigation"
+          className="hidden items-center gap-3 text-[13px] text-muted lg:flex xl:gap-5"
+        >
           {localizedLinks.map((link) => (
             link.special ? (
               <button
@@ -93,7 +96,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
             value={language}
             onChange={(event) => setLanguage(event.target.value)}
             aria-label="Select language"
-            className="border border-line bg-transparent px-2 py-1 text-[11px] text-muted outline-none"
+            className="min-h-11 border border-line bg-transparent px-2 py-1 text-[11px] text-muted outline-none"
           >
             <option value="en">EN</option>
             <option value="ta">தமிழ்</option>
@@ -103,7 +106,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
             type="button"
             onClick={(event) => toggle(event)}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            className="border border-line px-2 py-1 text-[11px] text-muted"
+            className="min-h-11 border border-line px-2 py-1 text-[11px] text-muted"
           >
             {theme === 'dark' ? '[ light ]' : '[ dark ]'}
           </button>
@@ -112,7 +115,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
             onClick={() => setOpen((value) => !value)}
             aria-expanded={open}
             aria-label="Toggle navigation"
-            className="border border-line px-2 py-1 text-xs text-muted"
+            className="min-h-11 min-w-11 border border-line px-2 py-1 text-xs text-muted"
           >
             {open ? '[x]' : '[=]'}
           </button>
@@ -120,7 +123,10 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
       </div>
 
       {open ? (
-        <nav className="border-t border-line bg-black px-6 py-4 lg:hidden">
+        <nav
+          aria-label="Mobile navigation"
+          className="border-t border-line bg-black px-6 py-4 lg:hidden"
+        >
           <div className="flex flex-col gap-3 text-[13px] text-muted">
             {localizedLinks.map((link) => (
               link.special ? (
@@ -131,7 +137,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
                     setOpen(false);
                     onStoriesClick();
                   }}
-                  className="stories-link w-fit transition-colors hover:text-white"
+                  className="stories-link flex min-h-11 w-fit items-center transition-colors hover:text-white"
                 >
                   ./{link.label}
                 </button>
@@ -144,7 +150,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
                     setOpen(false);
                     onNavigate(link.path);
                   }}
-                  className="hover:text-white"
+                  className="flex min-h-11 items-center hover:text-white"
                 >
                   ./{link.label}
                 </a>

@@ -5,7 +5,7 @@ import { skillGroups } from '../data/skills';
 
 const Skills = () => {
   return (
-    <section id="skills" className="scroll-mt-14 border-b border-line py-12 md:py-16">
+    <section id="skills" className="scroll-mt-14 py-12 md:py-16">
       <div className="shell">
         <SectionHeading
           index="04"
@@ -14,26 +14,19 @@ const Skills = () => {
           description="Grouped by the kind of work, not by how impressive the logo looks."
         />
 
-        <div className="grid gap-8 md:grid-cols-3 md:gap-10">
+        <div className="grid gap-x-8 gap-y-9 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {skillGroups.map((group, index) => (
-            <RevealItem key={group.title} delay={index * 160}>
-            <div>
-              <h3 className="mb-3 text-[11px] tracking-widest text-muted">{group.title}</h3>
-              <ul className="border-t border-line">
-                {group.items.map((item, itemIndex) => (
-                  <RevealItem
-                    key={item}
-                    delay={index * 160 + itemIndex * 55}
-                    className="border-b border-line"
-                  >
-                    <li className="flex items-center gap-3 py-2 text-[13px] text-neutral-300">
-                      <span className="text-muted">›</span>
+            <RevealItem key={group.title} delay={index * 100}>
+              <section className="h-full border-t border-line pt-3">
+                <h3 className="max-w-[14rem] text-[12px] leading-5 text-white">{group.title}</h3>
+                <ul className="mt-4 space-y-2">
+                  {group.items.map((item) => (
+                    <li key={item} className="font-sans text-[13px] leading-5 text-neutral-400">
                       {item}
                     </li>
-                  </RevealItem>
-                ))}
-              </ul>
-            </div>
+                  ))}
+                </ul>
+              </section>
             </RevealItem>
           ))}
         </div>

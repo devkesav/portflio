@@ -19,9 +19,10 @@ const Contact = () => {
       `Name: ${form.name}\nReply email: ${form.email}\n\n${form.message}`
     );
 
-    setStatus('Opening your email app...');
+    setStatus(
+      'Your email app should open. If it does not, email me directly at k.kesavaraj86@gmail.com.'
+    );
     window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-    window.setTimeout(() => setStatus('Email draft ready'), 800);
   };
 
   return (
@@ -75,7 +76,9 @@ const Contact = () => {
           </div>
 
           <form onSubmit={handleSubmit}>
-            <p className="mb-5 text-[13px] text-muted">$ mail -s &quot;hello&quot; {EMAIL}</p>
+            <p className="mb-5 font-sans text-[13px] leading-6 text-muted">
+              The form opens a message in your email app; it does not send anything from this site.
+            </p>
 
             <div className="space-y-4">
               <label className="flex items-baseline gap-3 border-b border-line py-1.5">
@@ -85,7 +88,7 @@ const Contact = () => {
                   required
                   value={form.name}
                   onChange={update('name')}
-                  className="w-full bg-transparent py-1 text-[13px] text-white outline-none placeholder:text-neutral-700"
+                  className="w-full bg-transparent py-2 text-sm text-white outline-none placeholder:text-neutral-700"
                   placeholder="your name"
                 />
               </label>
@@ -97,7 +100,7 @@ const Contact = () => {
                   required
                   value={form.email}
                   onChange={update('email')}
-                  className="w-full bg-transparent py-1 text-[13px] text-white outline-none placeholder:text-neutral-700"
+                  className="w-full bg-transparent py-2 text-sm text-white outline-none placeholder:text-neutral-700"
                   placeholder="you@example.com"
                 />
               </label>
@@ -109,15 +112,19 @@ const Contact = () => {
                   required
                   value={form.message}
                   onChange={update('message')}
-                  className="w-full resize-y bg-transparent py-1 text-[13px] text-white outline-none placeholder:text-neutral-700"
+                  className="w-full resize-y bg-transparent py-2 text-sm text-white outline-none placeholder:text-neutral-700"
                   placeholder="a sentence or two is plenty"
                 />
               </label>
             </div>
 
             <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
-              <p className="text-[11px] text-neutral-600" role="status" aria-live="polite">
-                {status || 'send using your email app'}
+              <p
+                className="max-w-md font-sans text-xs leading-5 text-neutral-500"
+                role="status"
+                aria-live="polite"
+              >
+                {status || 'Your message will be prepared in your email app.'}
               </p>
               <button
                 type="submit"

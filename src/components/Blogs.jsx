@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SectionHeading from './SectionHeading';
 import { RevealItem } from './RevealText';
-
-const MEDIUM_PROFILE = 'https://medium.com/@devkesav';
-const MEDIUM_FEED = 'https://api.rss2json.com/v1/api.json';
+import { fetchMediumPosts, MEDIUM_PROFILE } from '../data/medium';
 
 const stripHtml = (html = '') => {
   const template = document.createElement('template');
@@ -25,26 +23,38 @@ const getMediumCover = (post) => {
     || '';
 };
 
+const formatDate = (value) => {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  return date.toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+};
+
 const Blogs = () => {
   const [posts, setPosts] = useState([]);
   const [status, setStatus] = useState('loading');
+  const [featuredPost, ...otherPosts] = posts;
+  const featuredCover = featuredPost ? getMediumCover(featuredPost) : '';
+  const featuredCategories =
+    featuredPost && Array.isArray(featuredPost.categories)
+      ? featuredPost.categories.filter(
+          (category) => typeof category === 'string' && category.trim()
+        )
+      : [];
+  const featuredExcerpt = featuredPost ? stripHtml(featuredPost.description) : '';
 
   useEffect(() => {
     let active = true;
     const controller = new AbortController();
 
-    fetch(
-      `${MEDIUM_FEED}?rss_url=${encodeURIComponent('https://medium.com/feed/@devkesav')}&count=6`,
-      { signal: controller.signal }
-    )
-      .then((response) => {
-        if (!response.ok) throw new Error('Could not load Medium posts');
-        return response.json();
-      })
-      .then((data) => {
+    fetchMediumPosts(controller.signal)
+      .then((items) => {
         if (!active) return;
-        if (data.status !== 'ok') throw new Error(data.message || 'Could not load Medium posts');
-        setPosts(data.items || []);
+        setPosts(items);
         setStatus('ready');
       })
       .catch((error) => {
@@ -59,7 +69,7 @@ const Blogs = () => {
   }, []);
 
   return (
-    <section id="blogs" className="scroll-mt-14 border-b border-line py-12 md:py-16">
+    <section id="blogs" className="scroll-mt-14 py-12 md:py-16">
       <div className="shell">
         <SectionHeading
           index="06"
@@ -88,68 +98,120 @@ const Blogs = () => {
 
         {status === 'ready' ? (
           <>
-            <div className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-              {posts.map((post, index) => {
-                const excerpt = stripHtml(post.description).slice(0, 170);
-                const cover = getMediumCover(post);
-                const date = post.pubDate
-                  ? new Date(post.pubDate).toLocaleDateString(undefined, {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric',
-                    })
-                  : '';
-
-                return (
-                  <RevealItem key={post.guid || post.link} delay={index * 120}>
-                    <article className="blog-card group h-full p-5 transition-colors md:p-6">
-                      {cover ? (
+            {featuredPost ? (
+              <div
+                className={`grid gap-10 lg:gap-14${
+                  otherPosts.length > 0
+                    ? ' lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)]'
+                    : ''
+                }`}
+              >
+                  <RevealItem>
+                    <article>
+                      {featuredCover ? (
                         <a
-                          href={post.link}
+                          href={featuredPost.link}
                           target="_blank"
-                          rel="noreferrer"
-                          className="mb-5 block overflow-hidden border border-line"
+                          rel="noopener noreferrer"
+                          className="group mb-5 block overflow-hidden bg-surface"
                         >
                           <img
-                            src={cover}
+                            src={featuredCover}
                             alt=""
-                            loading="lazy"
+                            loading="eager"
                             referrerPolicy="no-referrer"
-                            className="h-40 w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
+                            className="aspect-[16/9] w-full object-cover grayscale transition-[filter,transform] duration-500 group-hover:scale-[1.02] group-hover:grayscale-0"
                           />
                         </a>
                       ) : null}
                       <p className="text-[10px] tracking-widest text-muted">
-                        {date} / {post.categories?.[0] || 'notes'}
+                        {formatDate(featuredPost.pubDate)}
+                        {featuredCategories.length
+                          ? ` / ${featuredCategories.join(' · ')}`
+                          : ' / notes'}
                       </p>
-                      <h3 className="mt-3 text-[16px] leading-6 text-white">
+                      <h3 className="mt-3 max-w-2xl text-xl leading-7 text-white md:text-2xl">
                         <a
-                          href={post.link}
+                          href={featuredPost.link}
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                           className="hover:underline"
                         >
-                          {post.title}
+                          {featuredPost.title}
                         </a>
                       </h3>
-                      {excerpt ? (
-                        <p className="mt-3 text-[13px] leading-6 text-neutral-400">
-                          {excerpt}{excerpt.length === 170 ? '...' : ''}
+                      {featuredExcerpt ? (
+                        <p className="mt-3 max-w-2xl font-sans text-sm leading-7 text-neutral-400">
+                          {featuredExcerpt.slice(0, 220)}
+                          {featuredExcerpt.length > 220 ? '...' : ''}
                         </p>
                       ) : null}
                       <a
-                        href={post.link}
+                        href={featuredPost.link}
                         target="_blank"
-                        rel="noreferrer"
-                        className="mt-5 inline-block text-xs text-muted transition-colors group-hover:text-white"
+                        rel="noopener noreferrer"
+                        className="mt-5 inline-block text-xs text-neutral-300 underline decoration-neutral-600 underline-offset-4 hover:text-white"
                       >
                         read article ↗
                       </a>
                     </article>
                   </RevealItem>
-                );
-              })}
-            </div>
+
+                  {otherPosts.length > 0 ? (
+                    <ol className="divide-y divide-line border-y border-line">
+                      {otherPosts.map((post, index) => {
+                        const postCover = getMediumCover(post);
+                        const postExcerpt = stripHtml(post.description).slice(0, 105);
+
+                        return (
+                          <RevealItem key={post.guid || post.link} as="li" delay={index * 90}>
+                            <article className="flex gap-4 py-4">
+                              {postCover ? (
+                                <a
+                                  href={post.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="h-20 w-24 shrink-0 overflow-hidden bg-surface sm:h-24 sm:w-32"
+                                >
+                                  <img
+                                    src={postCover}
+                                    alt=""
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer"
+                                    className="h-full w-full object-cover grayscale transition-[filter] duration-300 hover:grayscale-0"
+                                  />
+                                </a>
+                              ) : null}
+                              <div className="min-w-0">
+                                <p className="text-[10px] text-muted">{formatDate(post.pubDate)}</p>
+                                <h3 className="mt-1 text-sm leading-5 text-white">
+                                  <a
+                                    href={post.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:underline"
+                                  >
+                                    {post.title}
+                                  </a>
+                                </h3>
+                                {postExcerpt ? (
+                                  <p className="mt-1.5 font-sans text-xs leading-5 text-neutral-500">
+                                    {postExcerpt}{postExcerpt.length === 105 ? '...' : ''}
+                                  </p>
+                                ) : null}
+                              </div>
+                            </article>
+                          </RevealItem>
+                        );
+                      })}
+                    </ol>
+                  ) : null}
+              </div>
+            ) : (
+                <p className="border-y border-line py-5 text-sm text-muted">
+                  No articles appeared in the feed.
+                </p>
+            )}
 
             <div className="mt-6 flex justify-end">
               <a
