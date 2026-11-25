@@ -76,7 +76,7 @@ export const RevealWords = ({ children, className = '', delay = 0 }) => {
       observer.disconnect();
       window.clearInterval(timer);
     };
-  }, [text, delay]);
+  }, [text, delay, words.length]);
 
   return (
     <span ref={ref} className={className}>

@@ -173,7 +173,7 @@ const Hero = ({ onNavigate }) => {
                 </a>
               </div>
 
-              <aside className="hero-status mt-4 w-full border border-line bg-surface/50 p-3 text-[10px] lg:text-[9px]">
+              <aside className="hero-status mt-4 w-full border border-line bg-surface/50 p-3 text-xs">
                 <p className="text-muted">$ cat status</p>
                 <dl className="mt-2 space-y-1.5">
                   <div className="grid grid-cols-[6rem_minmax(0,1fr)] items-baseline gap-2 sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:gap-4">
@@ -203,7 +203,7 @@ const Hero = ({ onNavigate }) => {
                   </div>
                 </dl>
               </aside>
-              <p className="hero-footer mt-3 text-[11px] leading-5 text-muted">
+              <p className="hero-footer mt-3 text-xs leading-5 text-muted">
                 {copy.footer}
               </p>
             </div>

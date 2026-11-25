@@ -6,6 +6,7 @@ export const STORY_ROUTES = {
   memories: '/stories/happy-memories',
   memoryPost: '/stories/happy-memories/creator-moments',
   idealsAndHobbies: '/stories/ideals-and-hobby-projects',
+  idealsWriteup: '/stories/ideals-and-hobby-projects/built-to-be-useful',
   inspirations: '/stories/inspirations',
 };
 

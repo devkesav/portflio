@@ -31,6 +31,7 @@ const STORY_PATHS = new Set(Object.values(STORY_ROUTES));
 
 const App = () => {
   const [currentPath, setCurrentPath] = useState(getCurrentRoutePath);
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const storiesOpen = STORY_PATHS.has(currentPath);
   const activeProjectId = currentPath.startsWith('/work/')
     ? currentPath.slice('/work/'.length)
@@ -95,6 +96,13 @@ const App = () => {
     return () => window.removeEventListener('popstate', syncPath);
   }, []);
 
+  useEffect(() => {
+    const syncScroll = () => setShowBackToTop(window.scrollY > 400);
+    syncScroll();
+    window.addEventListener('scroll', syncScroll, { passive: true });
+    return () => window.removeEventListener('scroll', syncScroll);
+  }, []);
+
   return (
     <div className="flex min-h-screen flex-col bg-black">
       <Nav
@@ -145,28 +153,29 @@ const App = () => {
         )}
       </main>
 
-      <footer className="border-t border-line py-8">
-        <div className="shell flex flex-col items-start justify-between gap-3 text-xs text-neutral-500 sm:flex-row sm:items-center">
+      <button
+        type="button"
+        className={`hero-action-link back-to-top${showBackToTop ? ' is-visible' : ''}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Back to top"
+        aria-hidden={!showBackToTop}
+        tabIndex={showBackToTop ? 0 : -1}
+      >
+        &uarr;
+      </button>
+
+      <footer className="site-footer border-t border-line py-8">
+        <div className="shell flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
           <p>kesavaraj@portfolio:~$ exit 0</p>
           <div className="flex items-center gap-5">
-            <a href="https://github.com/devkesav" target="_blank" rel="noreferrer" className="hover:text-neutral-300">
+            <a href="https://github.com/devkesav" target="_blank" rel="noreferrer">
               github
             </a>
-            <a href="https://www.linkedin.com/in/devkesav" target="_blank" rel="noreferrer" className="hover:text-neutral-300">
+            <a href="https://www.linkedin.com/in/devkesav" target="_blank" rel="noreferrer">
               linkedin
             </a>
-            <a href="mailto:k.kesavaraj86@gmail.com" className="hover:text-neutral-300">
+            <a href="mailto:k.kesavaraj86@gmail.com">
               email
-            </a>
-            <a
-              href={routeHref('/')}
-              onClick={(event) => {
-                event.preventDefault();
-                navigateTo('/');
-              }}
-              className="hover:text-neutral-300"
-            >
-              top
             </a>
             <span>© {new Date().getFullYear()}</span>
           </div>

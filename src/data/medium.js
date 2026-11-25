@@ -1,10 +1,10 @@
 export const MEDIUM_PROFILE = 'https://medium.com/@devkesav';
 export const MEDIUM_FEED = 'https://api.rss2json.com/v1/api.json';
 
-export const fetchMediumPosts = async (signal) => {
+export const fetchMediumPosts = async (signal, limit = 6) => {
   const query = new URLSearchParams({
     rss_url: 'https://medium.com/feed/@devkesav',
-    count: '6',
+    count: String(limit),
   });
   const response = await fetch(`${MEDIUM_FEED}?${query}`, { signal });
   if (!response.ok) throw new Error('Could not load Medium posts');

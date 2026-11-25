@@ -48,7 +48,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
 
         <nav
           aria-label="Primary navigation"
-          className="hidden items-center gap-3 text-[13px] text-muted lg:flex xl:gap-5"
+          className="hidden items-center gap-1 text-muted md:flex xl:gap-2"
         >
           {localizedLinks.map((link) => (
             link.special ? (
@@ -56,7 +56,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
                 key={link.path}
                 type="button"
                 onClick={onStoriesClick}
-                className="stories-link transition-colors hover:text-white"
+                className="nav-link stories-link"
               >
                 ./{link.label}
               </button>
@@ -65,7 +65,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
                 key={link.path}
                 href={routeHref(link.path)}
                 onClick={(event) => navigate(event, link.path)}
-                className="transition-colors hover:text-white"
+                className="nav-link"
               >
                 ./{link.label}
               </a>
@@ -75,7 +75,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
             value={language}
             onChange={(event) => setLanguage(event.target.value)}
             aria-label="Select language"
-            className="border border-line bg-transparent px-2 py-1 text-[11px] text-muted outline-none"
+            className="nav-control"
           >
             <option value="en">English</option>
             <option value="ta">தமிழ்</option>
@@ -85,18 +85,18 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
             type="button"
             onClick={(event) => toggle(event)}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            className="border border-line px-2 py-1 text-[11px] text-muted transition-colors hover:border-white hover:text-white"
+            className="nav-control"
           >
             {theme === 'dark' ? '[ light ]' : '[ dark ]'}
           </button>
         </nav>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-2 md:hidden">
           <select
             value={language}
             onChange={(event) => setLanguage(event.target.value)}
             aria-label="Select language"
-            className="min-h-11 border border-line bg-transparent px-2 py-1 text-[11px] text-muted outline-none"
+            className="nav-control"
           >
             <option value="en">EN</option>
             <option value="ta">தமிழ்</option>
@@ -106,7 +106,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
             type="button"
             onClick={(event) => toggle(event)}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            className="min-h-11 border border-line px-2 py-1 text-[11px] text-muted"
+            className="nav-control"
           >
             {theme === 'dark' ? '[ light ]' : '[ dark ]'}
           </button>
@@ -125,7 +125,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
       {open ? (
         <nav
           aria-label="Mobile navigation"
-          className="border-t border-line bg-black px-6 py-4 lg:hidden"
+          className="border-t border-line bg-black px-6 py-4 md:hidden"
         >
           <div className="flex flex-col gap-3 text-[13px] text-muted">
             {localizedLinks.map((link) => (
@@ -137,7 +137,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
                     setOpen(false);
                     onStoriesClick();
                   }}
-                  className="stories-link flex min-h-11 w-fit items-center transition-colors hover:text-white"
+                  className="nav-link stories-link flex min-h-11 w-fit justify-start"
                 >
                   ./{link.label}
                 </button>
@@ -150,7 +150,7 @@ const Nav = ({ onStoriesClick, onNavigate, storiesOpen }) => {
                     setOpen(false);
                     onNavigate(link.path);
                   }}
-                  className="flex min-h-11 items-center hover:text-white"
+                  className="nav-link flex min-h-11 w-full justify-start"
                 >
                   ./{link.label}
                 </a>

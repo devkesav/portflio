@@ -51,7 +51,7 @@ const Blogs = () => {
     let active = true;
     const controller = new AbortController();
 
-    fetchMediumPosts(controller.signal)
+    fetchMediumPosts(controller.signal, 5)
       .then((items) => {
         if (!active) return;
         setPosts(items);
@@ -106,23 +106,25 @@ const Blogs = () => {
                     : ''
                 }`}
               >
-                  <RevealItem>
-                    <article>
+                <RevealItem>
+                  <article className="group">
+                    <a
+                      href={featuredPost.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Read ${featuredPost.title} on Medium`}
+                      className="block"
+                    >
                       {featuredCover ? (
-                        <a
-                          href={featuredPost.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group mb-5 block overflow-hidden bg-surface"
-                        >
+                        <div className="mb-5 overflow-hidden bg-surface">
                           <img
                             src={featuredCover}
                             alt=""
                             loading="eager"
                             referrerPolicy="no-referrer"
-                            className="aspect-[16/9] w-full object-cover grayscale transition-[filter,transform] duration-500 group-hover:scale-[1.02] group-hover:grayscale-0"
+                            className="aspect-[16/9] w-full object-cover grayscale transition-[filter,transform] duration-500 hover:scale-[1.02] group-hover:grayscale-0"
                           />
-                        </a>
+                        </div>
                       ) : null}
                       <p className="text-[10px] tracking-widest text-muted">
                         {formatDate(featuredPost.pubDate)}
@@ -131,14 +133,7 @@ const Blogs = () => {
                           : ' / notes'}
                       </p>
                       <h3 className="mt-3 max-w-2xl text-xl leading-7 text-white md:text-2xl">
-                        <a
-                          href={featuredPost.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:underline"
-                        >
-                          {featuredPost.title}
-                        </a>
+                        {featuredPost.title}
                       </h3>
                       {featuredExcerpt ? (
                         <p className="mt-3 max-w-2xl font-sans text-sm leading-7 text-neutral-400">
@@ -146,16 +141,12 @@ const Blogs = () => {
                           {featuredExcerpt.length > 220 ? '...' : ''}
                         </p>
                       ) : null}
-                      <a
-                        href={featuredPost.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-5 inline-block text-xs text-neutral-300 underline decoration-neutral-600 underline-offset-4 hover:text-white"
-                      >
+                      <span className="mt-5 inline-block text-xs text-neutral-300 underline decoration-neutral-600 underline-offset-4">
                         read article ↗
-                      </a>
-                    </article>
-                  </RevealItem>
+                      </span>
+                    </a>
+                  </article>
+                </RevealItem>
 
                   {otherPosts.length > 0 ? (
                     <ol className="divide-y divide-line border-y border-line">
@@ -165,12 +156,13 @@ const Blogs = () => {
 
                         return (
                           <RevealItem key={post.guid || post.link} as="li" delay={index * 90}>
-                            <article className="flex gap-4 py-4">
+                            <article className="group flex gap-4 py-4">
                               {postCover ? (
                                 <a
                                   href={post.link}
                                   target="_blank"
                                   rel="noopener noreferrer"
+                                  aria-label={`Read ${post.title} on Medium`}
                                   className="h-20 w-24 shrink-0 overflow-hidden bg-surface sm:h-24 sm:w-32"
                                 >
                                   <img
@@ -178,7 +170,7 @@ const Blogs = () => {
                                     alt=""
                                     loading="lazy"
                                     referrerPolicy="no-referrer"
-                                    className="h-full w-full object-cover grayscale transition-[filter] duration-300 hover:grayscale-0"
+                                    className="h-full w-full object-cover grayscale transition-[filter] duration-300 group-hover:grayscale-0 group-focus-within:grayscale-0"
                                   />
                                 </a>
                               ) : null}
@@ -218,7 +210,7 @@ const Blogs = () => {
                 href={MEDIUM_PROFILE}
                 target="_blank"
                 rel="noreferrer"
-                className="border border-white bg-white px-5 py-2 text-xs font-medium text-black transition-colors hover:bg-black hover:text-white"
+                className="blog-read-all border border-white bg-white px-5 py-2 text-xs font-medium text-black transition-colors hover:bg-black hover:text-white"
               >
                 read all on medium ↗
               </a>
